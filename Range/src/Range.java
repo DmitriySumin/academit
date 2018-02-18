@@ -31,4 +31,11 @@ public class Range {
     public boolean isInside(double numberInRange) {
         return from <= numberInRange && to >= numberInRange;
     }
+
+    public double[] getRange() {
+        double[] array = new double[2];
+        array[0] = from;
+        array[1] = to;
+        return array;
+    }
 }

@@ -8,22 +8,22 @@ public class Range {
         this.to = to;
     }
 
-    public void rangeIntersection(double from1, double to1) {
-        if ((from1 > from) && (to1 < to)) {
-            from = from1;
-            to = to1;
-            System.out.println("Диапазон пересечения: " + from + "..." + to);
-        } else if ((from > from1) && (to < to1)) {
-            System.out.println("Диапазон пересечения: " + from + "..." + to);
-        } else if ((from < from1) && (from1 < to)) {
-            from = from1;
-            System.out.println("Диапазон пересечения: " + from + "..." + to);
-        } else if ((from1 < from) && (from < to1)) {
-            from = to1;
-            System.out.println("Диапазон пересечения: " + from + "..." + to);
+    public Range getIntersection(Range range) {
+        if ((range.getFrom() > from) && (range.getTo() < to)) {
+            return new Range(range.getFrom(), range.getTo());
+        } else if ((from > range.getFrom()) && (to < range.getTo())) {
+            return new Range(from, to);
+        } else if ((from < range.getFrom()) && (range.getFrom() < to)) {
+            return new Range(range.getFrom(), to);
+        } else if ((range.getFrom() < from) && (from < range.getTo())) {
+            return new Range(range.getTo(), to);
         } else {
-            System.out.println("null");
+            return null;
         }
+    }
+
+    public String toString() {
+        return "Начальный элемент диапазона:" + from + " конечный элемент диапазона: " + to;
     }
 
     public double getFrom() {

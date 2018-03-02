@@ -42,25 +42,25 @@ public class Range {
         if (((from < range.from) && (to < range.from)) || ((range.from < from) && (range.to < from))) {
             return new Range[]{};
         } else if ((range.from < from) && (range.to > to)) {
-            return new Range[]{new Range(range.from, from), new Range(to, range.to)};
+            return new Range[]{new Range(range.from, from - 1), new Range(to + 1, range.to)};
         } else if (((from < range.from) && (to > range.to))) {
-            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            return new Range[]{new Range(from, range.from - 1), new Range(range.to + 1, to)};
         } else if (from == range.from) {
             if (to > range.to) {
-                return new Range[]{new Range(range.to, to)};
+                return new Range[]{new Range(range.to + 1, to)};
             } else {
-                return new Range[]{new Range(to, range.to)};
+                return new Range[]{new Range(to + 1, range.to)};
             }
         } else if (to == range.to) {
             if (from < range.from) {
-                return new Range[]{new Range(from, range.from)};
+                return new Range[]{new Range(from, range.from - 1)};
             } else {
-                return new Range[]{new Range(range.from, from)};
+                return new Range[]{new Range(range.from, from - 1)};
             }
         } else if (((from < range.from) && (to > range.from))) {
-            return new Range[]{new Range(from, range.from), new Range(to, range.to)};
+            return new Range[]{new Range(from, range.from - 1), new Range(to + 1, range.to)};
         } else if ((range.from < from) && (range.to > from)) {
-            return new Range[]{new Range(range.from, from), new Range(range.to, to)};
+            return new Range[]{new Range(range.from, from - 1), new Range(range.to + 1, to)};
         } else {
             return new Range[]{};
         }

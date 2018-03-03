@@ -39,30 +39,39 @@ public class Range {
     }
 
     public Range[] getDifferenceRange(Range range) {
+        //пересечения нет
         if (((from < range.from) && (to < range.from)) || ((range.from < from) && (range.to < from))) {
             return new Range[]{};
+            //диапазон Б входит в диапазон А
         } else if ((range.from < from) && (range.to > to)) {
-            return new Range[]{new Range(range.from, from - 1), new Range(to + 1, range.to)};
+            return new Range[]{new Range(range.from, from), new Range(to, range.to)};
+            //диапазон А входит в диапазон Б
         } else if (((from < range.from) && (to > range.to))) {
-            return new Range[]{new Range(from, range.from - 1), new Range(range.to + 1, to)};
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            //начальные элементы диапазонов равны между собой
         } else if (from == range.from) {
             if (to > range.to) {
-                return new Range[]{new Range(range.to + 1, to)};
+                return new Range[]{new Range(range.to, to)};
+            } else if (to < range.to) {
+                return new Range[]{new Range(to, range.to)};
             } else {
-                return new Range[]{new Range(to + 1, range.to)};
+                return new Range[]{};
             }
+            //конечные элементы диапазонов равны между собой
         } else if (to == range.to) {
             if (from < range.from) {
-                return new Range[]{new Range(from, range.from - 1)};
+                return new Range[]{new Range(from, range.from)};
+            } else if (from > range.from) {
+                return new Range[]{new Range(range.from, from)};
             } else {
-                return new Range[]{new Range(range.from, from - 1)};
+                return new Range[]{};
             }
+            //конечный элемент диапазона А больше начального элемента диапазона Б
         } else if (((from < range.from) && (to > range.from))) {
-            return new Range[]{new Range(from, range.from - 1), new Range(to + 1, range.to)};
-        } else if ((range.from < from) && (range.to > from)) {
-            return new Range[]{new Range(range.from, from - 1), new Range(range.to + 1, to)};
+            return new Range[]{new Range(from, range.from)};
+            //Конечный элемент диапазона Б больше начального элемента диапазона А
         } else {
-            return new Range[]{};
+            return new Range[]{new Range(range.from, from)};
         }
     }
 

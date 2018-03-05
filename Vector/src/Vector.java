@@ -37,6 +37,33 @@ public class Vector {
     public int getSize(){
         return array.length;
     }
+    public Vector getAdditionVectors(Vector vector){
+        for (int i = 0; i < array.length; ++i){
+            vector.array[i] = vector.array[i] + array[i];
+        }
+        return vector;
+    }
+
+    public Vector getDifferenceectors(Vector vector){
+        for (int i = 0; i < array.length; ++ i){
+            vector.array[i] = array[i] - vector.array[i];
+        }
+        return vector;
+    }
+
+    public Vector getMultiplicationByScalar(int scalar){
+        for (int i = 0; i < array.length; ++i){
+            array[i] = array[i] * scalar;
+        }
+        return new Vector(array);
+    }
+
+    public Vector getTurnVector(){
+        for (int i = 0; i < array.length; ++i){
+            array[i] = array[i] * -1;
+        }
+        return new Vector(array);
+    }
 
     public String toString() {
         return Arrays.toString(array);

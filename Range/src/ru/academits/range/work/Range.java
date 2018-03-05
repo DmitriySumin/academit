@@ -44,7 +44,7 @@ public class Range {
             return new Range[]{};
             //диапазон Б входит в диапазон А
         } else if ((range.from < from) && (range.to > to)) {
-            return new Range[]{new Range(range.from, from), new Range(to, range.to)};
+            return new Range[]{};
             //диапазон А входит в диапазон Б
         } else if (((from < range.from) && (to > range.to))) {
             return new Range[]{new Range(from, range.from), new Range(range.to, to)};
@@ -52,8 +52,6 @@ public class Range {
         } else if (from == range.from) {
             if (to > range.to) {
                 return new Range[]{new Range(range.to, to)};
-            } else if (to < range.to) {
-                return new Range[]{new Range(to, range.to)};
             } else {
                 return new Range[]{};
             }
@@ -61,8 +59,6 @@ public class Range {
         } else if (to == range.to) {
             if (from < range.from) {
                 return new Range[]{new Range(from, range.from)};
-            } else if (from > range.from) {
-                return new Range[]{new Range(range.from, from)};
             } else {
                 return new Range[]{};
             }
@@ -71,7 +67,7 @@ public class Range {
             return new Range[]{new Range(from, range.from)};
             //Конечный элемент диапазона Б больше начального элемента диапазона А
         } else {
-            return new Range[]{new Range(range.from, from)};
+            return new Range[]{new Range(range.to, to)};
         }
     }
 

@@ -11,8 +11,8 @@ public class Main {
         System.out.println(range.getIntersection(range1));
         Range[] array = range.getDifferenceRange(range1);*/
 
-        Range range = new Range(8, 15);
-        Range range1 = new Range(1, 10);
+        Range range = new Range(5, 7);
+        Range range1 = new Range(1, 6);
         Range[] array = range.getDifferenceRange(range1);
         for (Range e : array) {
             System.out.println(e);

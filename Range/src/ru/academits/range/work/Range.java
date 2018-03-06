@@ -40,14 +40,22 @@ public class Range {
 
     public Range[] getDifferenceRange(Range range) {
         //пересечения нет
-        if (((from < range.from) && (to < range.from)) || ((range.from < from) && (range.to < from))) {
-            return new Range[]{};
-            //диапазон Б входит в диапазон А
+        if ((from < range.from) && (to < range.from)) {
+            return new Range[]{new Range(from, to)};
+        } else if ((range.from < from) && (range.to < from)) {
+            return new Range[]{new Range(from, to)};
+            //диапазон А входит в диапазон Б
         } else if ((range.from < from) && (range.to > to)) {
             return new Range[]{};
-            //диапазон А входит в диапазон Б
+            //диапазон Б входит в диапазон А
         } else if (((from < range.from) && (to > range.to))) {
             return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            //конечный элемент диапазона А равен начальному элементку дипазона Б
+        } else if (to == range.from) {
+            return new Range[]{new Range(from, to)};
+            //конечный элемент диапазона Б равен начальному элементу диапазона А
+        } else if (range.to == from) {
+            return new Range[]{new Range(from, to)};
             //начальные элементы диапазонов равны между собой
         } else if (from == range.from) {
             if (to > range.to) {

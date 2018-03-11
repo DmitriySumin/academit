@@ -1,30 +1,27 @@
 package ru.academit.vector;
 
-import java.util.Arrays;
-
 public class Vector {
-    private int n;
     private double[] vector;
 
     //размерность n все компоненты равны 0
     public Vector(int dimension) {
-        this.n = dimension;
-        this.vector = new double[dimension];
-        for (int i = 0; i < this.vector.length; ++i) {
-            this.vector[i] = 0;
+        if (dimension <= 0) {
+            throw new IllegalArgumentException("Ошибка, размерность вектора задана не верно.");
         }
+        this.vector = new double[dimension];
     }
 
     //конструктор копирования
     public Vector(Vector vector) {
         this.vector = new double[vector.vector.length];
-        for (int i = 0; i < vector.vector.length; ++i) {
-            this.vector[i] = vector.vector[i];
-        }
+        System.arraycopy(vector.vector, 0, this.vector, 0, vector.vector.length);
     }
 
     //заполнение вектора значениями из массива
     public Vector(double[] elements) {
+        if (elements.length == 0) {
+            throw new IllegalArgumentException("Ошибка, не заданы элементы вектора.");
+        }
         this.vector = elements;
     }
 
@@ -33,13 +30,10 @@ public class Vector {
         if (dimension < elements.length) {
             throw new IllegalArgumentException("Ошибка, размерность вектора задана не верно.");
         }
-        this.n = dimension;
         this.vector = new double[dimension];
-        for (int i = 0; i < elements.length; ++i) {
-            vector[i] = elements[i];
-        }
-        if (elements.length < n) {
-            for (int i = elements.length; i < n; ++i) {
+        System.arraycopy(elements, 0, vector, 0, elements.length);
+        if (elements.length < dimension) {
+            for (int i = elements.length; i < dimension; ++i) {
                 vector[i] = 0;
             }
         }
@@ -54,18 +48,14 @@ public class Vector {
     public Vector getAdditionVectors(Vector vector) {
         if (this.vector.length > vector.vector.length) {
             double[] newVector = new double[this.vector.length];
-            for (int i = 0; i < vector.vector.length; ++i) {
-                newVector[i] = vector.vector[i];
-            }
+            System.arraycopy(vector.vector, 0, newVector, 0, vector.vector.length);
             for (int i = 0; i < this.vector.length; ++i) {
                 this.vector[i] = this.vector[i] + newVector[i];
             }
         } else if (this.vector.length < vector.vector.length) {
             double[] newVector = this.vector;
             this.vector = new double[vector.vector.length];
-            for (int i = 0; i < newVector.length; ++i) {
-                this.vector[i] = newVector[i];
-            }
+            System.arraycopy(newVector, 0, this.vector, 0, newVector.length);
             for (int i = 0; i < vector.vector.length; ++i) {
                 this.vector[i] = this.vector[i] + vector.vector[i];
             }
@@ -81,18 +71,14 @@ public class Vector {
     public Vector getDifferencesVectors(Vector vector) {
         if (this.vector.length > vector.vector.length) {
             double[] newVector = new double[this.vector.length];
-            for (int i = 0; i < vector.vector.length; ++i) {
-                newVector[i] = vector.vector[i];
-            }
+            System.arraycopy(vector.vector, 0, newVector, 0, vector.vector.length);
             for (int i = 0; i < this.vector.length; ++i) {
                 this.vector[i] = this.vector[i] - newVector[i];
             }
         } else if (this.vector.length < vector.vector.length) {
             double[] newVector = this.vector;
             this.vector = new double[vector.vector.length];
-            for (int i = 0; i < newVector.length; ++i) {
-                this.vector[i] = newVector[i];
-            }
+            System.arraycopy(newVector, 0, this.vector, 0, newVector.length);
             for (int i = 0; i < vector.vector.length; ++i) {
                 this.vector[i] = this.vector[i] - vector.vector[i];
             }
@@ -121,48 +107,48 @@ public class Vector {
     }
 
     //длина вектора
-    public double getLengthVector() {
+    public double getLength() {
         double length = 0;
-        for (int i = 0; i < vector.length; ++i) {
-            length += vector[i];
+        for (double e : vector) {
+            length += e;
         }
         return length;
     }
 
     //получение значения вектора по индексу
-    public double getVectorIndex(int e) {
-        for (int i = 0; i < vector.length; ++i) {
-            if (i == e) {
-                return vector[i];
-            }
+    public double getElement(int index) {
+        if (index < vector.length) {
+            return vector[index];
+        } else {
+            return 0;
         }
-        return 0;
     }
 
     //установка значения по индексу
-    public Vector getElementOperation(int n, double number) {
-        for (int i = 0; i < vector.length; ++i) {
-            if (i == n) {
-                vector[i] = number;
-            }
+    public Vector getReplaceElement(int index, double value) {
+        if (index < vector.length) {
+            vector[index] = value;
+        } else {
+            throw new IllegalArgumentException("Ошибка, задан несуществующий индес.");
         }
         return new Vector(vector);
     }
 
     //переопределение equals
-    public boolean equals(Vector vector) {
-        if (vector == null) {
-            return false;
-        }
+    @Override
+    public boolean equals(Object vector) {
         if (vector == this) {
             return true;
         }
-        if (getClass() != vector.getClass()) {
+        if (vector == null || vector.getClass() != this.getClass()) {
             return false;
         }
         Vector vector1 = (Vector) vector;
-        for (int i = 0; i < vector.vector.length; ++i) {
-            if (this.vector[i] != vector1.vector[i]) {
+        if (vector1.vector.length != this.vector.length) {
+            return false;
+        }
+        for (int i = 0; i < vector1.vector.length; ++i) {
+            if (vector1.vector[i] != this.vector[i]) {
                 return false;
             }
         }
@@ -170,16 +156,24 @@ public class Vector {
     }
 
     //переопределение hashCode
+    @Override
     public int hashCode() {
-        final int PRIME = 31;
+        final int PRIME = 37;
         int result = 1;
-        for (int i = 0; i < vector.length; ++i) {
-            result += PRIME * result + vector[i];
+        for (double e : vector) {
+            result += PRIME * result + e;
         }
         return result;
     }
 
+    //переопределение toString
+    @Override
     public String toString() {
-        return Arrays.toString(vector);
+        StringBuilder builder = new StringBuilder();
+        for (double e : vector) {
+            builder.append(e).append(" ");
+        }
+        return "{" + builder + "}";
     }
+
 }

@@ -1,5 +1,7 @@
 package ru.academit.vector;
 
+import java.util.Arrays;
+
 public class Vector {
     private double[] vector;
 
@@ -13,8 +15,7 @@ public class Vector {
 
     //конструктор копирования
     public Vector(Vector vector) {
-        this.vector = new double[vector.vector.length];
-        System.arraycopy(vector.vector, 0, this.vector, 0, vector.vector.length);
+        this.vector = Arrays.copyOf(vector.vector, vector.vector.length);
     }
 
     //заполнение вектора значениями из массива
@@ -22,7 +23,7 @@ public class Vector {
         if (elements.length == 0) {
             throw new IllegalArgumentException("Ошибка, не заданы элементы вектора.");
         }
-        this.vector = elements;
+        this.vector = Arrays.copyOf(elements, elements.length);
     }
 
     //заполнение вектора значениями из массива с заданием размерности вектора
@@ -31,12 +32,7 @@ public class Vector {
             throw new IllegalArgumentException("Ошибка, размерность вектора задана не верно.");
         }
         this.vector = new double[dimension];
-        System.arraycopy(elements, 0, vector, 0, elements.length);
-        if (elements.length < dimension) {
-            for (int i = elements.length; i < dimension; ++i) {
-                vector[i] = 0;
-            }
-        }
+        this.vector = Arrays.copyOf(elements, vector.length);
     }
 
     //получение размерности вектора
@@ -100,19 +96,16 @@ public class Vector {
 
     //разворот вектора
     public Vector getTurnVector() {
-        for (int i = 0; i < vector.length; ++i) {
-            vector[i] = vector[i] * -1;
-        }
-        return new Vector(vector);
+        return getMultiplicationByScalar(-1);
     }
 
     //длина вектора
     public double getLength() {
         double length = 0;
         for (double e : vector) {
-            length += e;
+            length += e * e;
         }
-        return length;
+        return Math.sqrt(length);
     }
 
     //получение значения вектора по индексу
@@ -120,18 +113,18 @@ public class Vector {
         if (index < vector.length) {
             return vector[index];
         } else {
-            return 0;
+            throw new IndexOutOfBoundsException("Ошибка, задан несуществующий индекс.");
         }
     }
 
     //установка значения по индексу
-    public Vector getReplaceElement(int index, double value) {
+    public double[] SetElement(int index, double value) {
         if (index < vector.length) {
             vector[index] = value;
         } else {
-            throw new IllegalArgumentException("Ошибка, задан несуществующий индес.");
+            throw new IndexOutOfBoundsException("Ошибка, задан несуществующий индес.");
         }
-        return new Vector(vector);
+        return vector;
     }
 
     //переопределение equals
@@ -170,10 +163,12 @@ public class Vector {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append("{");
         for (double e : vector) {
-            builder.append(e).append(" ");
+            builder.append(e).append("  ");
         }
-        return "{" + builder + "}";
+        builder.append("}");
+        return builder.toString();
     }
 
 }

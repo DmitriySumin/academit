@@ -117,6 +117,7 @@ public class Vector {
             vector[index] = value;
         }
     }
+    //статический метод сложения векторов
     public static Vector getAdditionStatic(Vector vectorX, Vector vectorY) {
         if (vectorX.getSize() > vectorY.getSize()) {
             for (int i = 0; i < vectorY.getSize(); ++i) {
@@ -135,9 +136,8 @@ public class Vector {
             return new Vector(vectorX);
         }
     }
-
-    public static Vector getDifferencetic(Vector vectorX, Vector vectorY) {
-        //вычитание векторов
+    //статический метод вычитания векторов
+    public static Vector getDifferenceStatic(Vector vectorX, Vector vectorY) {
         if (vectorX.getSize() > vectorY.getSize()) {
             for (int i = 0; i < vectorY.getSize(); ++i) {
                 vectorX.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
@@ -158,9 +158,8 @@ public class Vector {
             return new Vector(vectorX);
         }
     }
-
+    //скалярное произведение векторов
     public static int getScalarProductVectors(Vector vectorX, Vector vectorY) {
-        //скалярное произведение векторов
         int result = 0;
         if (vectorX.getSize() > vectorY.getSize()) {
             for (int i = 0; i < vectorY.getSize(); ++i) {

@@ -117,6 +117,66 @@ public class Vector {
             vector[index] = value;
         }
     }
+    public static Vector getAdditionStatic(Vector vectorX, Vector vectorY) {
+        if (vectorX.getSize() > vectorY.getSize()) {
+            for (int i = 0; i < vectorY.getSize(); ++i) {
+                vectorX.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
+            }
+            return vectorX;
+        } else if (vectorX.getSize() < vectorY.getSize()) {
+            for (int i = 0; i < vectorX.getSize(); ++i) {
+                vectorY.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
+            }
+            return vectorY;
+        } else {
+            for (int i = 0; i < vectorX.getSize(); ++i) {
+                vectorX.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
+            }
+            return new Vector(vectorX);
+        }
+    }
+
+    public static Vector getDifferencetic(Vector vectorX, Vector vectorY) {
+        //вычитание векторов
+        if (vectorX.getSize() > vectorY.getSize()) {
+            for (int i = 0; i < vectorY.getSize(); ++i) {
+                vectorX.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
+            }
+            return new Vector(vectorX);
+        } else if (vectorX.getSize() < vectorY.getSize()) {
+            for (int i = 0; i < vectorX.getSize(); ++i) {
+                vectorY.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
+            }
+            for (int i = vectorX.getSize(); i < vectorY.getSize(); ++i) {
+                vectorY.setElement(i, vectorY.getElement(i) * -1);
+            }
+            return new Vector(vectorY);
+        } else {
+            for (int i = 0; i < vectorX.getSize(); ++i) {
+                vectorX.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
+            }
+            return new Vector(vectorX);
+        }
+    }
+
+    public static int getScalarProductVectors(Vector vectorX, Vector vectorY) {
+        //скалярное произведение векторов
+        int result = 0;
+        if (vectorX.getSize() > vectorY.getSize()) {
+            for (int i = 0; i < vectorY.getSize(); ++i) {
+                result += vectorX.getElement(i) * vectorY.getElement(i);
+            }
+        } else if (vectorX.getSize() < vectorY.getSize()) {
+            for (int i = 0; i < vectorX.getSize(); ++i) {
+                result += vectorX.getElement(i) * vectorY.getElement(i);
+            }
+        } else {
+            for (int i = 0; i < vectorX.getSize(); ++i) {
+                result += vectorX.getElement(i) * vectorY.getElement(i);
+            }
+        }
+        return result;
+    }
 
     //переопределение equals
     @Override

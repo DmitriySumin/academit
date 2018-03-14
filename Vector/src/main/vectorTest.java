@@ -6,17 +6,17 @@ public class vectorTest {
     public static Vector getAddVectors(Vector vectorX, Vector vectorY) {
         if (vectorX.getSize() > vectorY.getSize()) {
             for (int i = 0; i < vectorY.getSize(); ++i) {
-                vectorX.SetElement(i, vectorX.getElement(i) + vectorY.getElement(i));
+                vectorX.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
             }
             return vectorX;
         } else if (vectorX.getSize() < vectorY.getSize()) {
             for (int i = 0; i < vectorX.getSize(); ++i) {
-                vectorY.SetElement(i, vectorX.getElement(i) + vectorY.getElement(i));
+                vectorY.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
             }
             return vectorY;
         } else {
             for (int i = 0; i < vectorX.getSize(); ++i) {
-                vectorX.SetElement(i, vectorX.getElement(i) + vectorY.getElement(i));
+                vectorX.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
             }
             return vectorX;
         }
@@ -25,20 +25,20 @@ public class vectorTest {
     public static Vector getDiffVectors(Vector vectorX, Vector vectorY) {
         if (vectorX.getSize() > vectorY.getSize()) {
             for (int i = 0; i < vectorY.getSize(); ++i) {
-                vectorX.SetElement(i, vectorX.getElement(i) - vectorY.getElement(i));
+                vectorX.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
             }
             return vectorX;
         } else if (vectorX.getSize() < vectorY.getSize()) {
             for (int i = 0; i < vectorX.getSize(); ++i) {
-                vectorY.SetElement(i, vectorX.getElement(i) - vectorY.getElement(i));
+                vectorY.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
             }
             for (int i = vectorX.getSize(); i < vectorY.getSize(); ++i) {
-                vectorY.SetElement(i, vectorY.getElement(i) * -1);
+                vectorY.setElement(i, vectorY.getElement(i) * -1);
             }
             return vectorY;
         } else {
             for (int i = 0; i < vectorX.getSize(); ++i) {
-                vectorX.SetElement(i, vectorX.getElement(i) - vectorY.getElement(i));
+                vectorX.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
             }
             return vectorX;
         }
@@ -67,10 +67,11 @@ public class vectorTest {
     }
 
     public static void main(String[] args) {
-        Vector vector = new Vector(7, new double[]{1, 2, 3});
-        Vector vector1 = new Vector(new double[]{1, 2, 3});
-        // System.out.println(vector.getDifferencesVectors(vector1));
-        System.out.println(vector.getLength());
+        Vector vector = new Vector(new double[]{1, 2, 3});
+        Vector vector1 = new Vector(new double[]{1, 2});
+        System.out.println(vector.getDifferencesVectors(vector1));
+        //System.out.println(vector.getMultiplicationByScalar(2));
         //System.out.println(vector.equals(vector1));
+        //System.out.println(getDiffVectors(vector, vector1));
     }
 }

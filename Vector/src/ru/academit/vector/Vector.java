@@ -28,11 +28,7 @@ public class Vector {
 
     //заполнение вектора значениями из массива с заданием размерности вектора
     public Vector(int dimension, double[] elements) {
-        if (dimension < elements.length) {
-            throw new IllegalArgumentException("Ошибка, размерность вектора задана не верно.");
-        }
-        this.vector = new double[dimension];
-        this.vector = Arrays.copyOf(elements, vector.length);
+        this.vector = Arrays.copyOf(elements, dimension);
     }
 
     //получение размерности вектора
@@ -43,47 +39,44 @@ public class Vector {
     //сложение векторов
     public Vector getAdditionVectors(Vector vector) {
         if (this.vector.length > vector.vector.length) {
-            double[] newVector = new double[this.vector.length];
-            System.arraycopy(vector.vector, 0, newVector, 0, vector.vector.length);
-            for (int i = 0; i < this.vector.length; ++i) {
-                this.vector[i] = this.vector[i] + newVector[i];
-            }
-        } else if (this.vector.length < vector.vector.length) {
-            double[] newVector = this.vector;
-            this.vector = new double[vector.vector.length];
-            System.arraycopy(newVector, 0, this.vector, 0, newVector.length);
             for (int i = 0; i < vector.vector.length; ++i) {
                 this.vector[i] = this.vector[i] + vector.vector[i];
             }
+            return this;
+        } else if (this.vector.length < vector.vector.length) {
+            for (int i = 0; i < this.vector.length; ++i) {
+                vector.vector[i] = this.vector[i] + vector.vector[i];
+            }
+            return vector;
         } else {
             for (int i = 0; i < vector.vector.length; ++i) {
                 this.vector[i] = this.vector[i] + vector.vector[i];
             }
+            return this;
         }
-        return new Vector(this.vector);
     }
 
     //вычитание векторов
     public Vector getDifferencesVectors(Vector vector) {
         if (this.vector.length > vector.vector.length) {
-            double[] newVector = new double[this.vector.length];
-            System.arraycopy(vector.vector, 0, newVector, 0, vector.vector.length);
-            for (int i = 0; i < this.vector.length; ++i) {
-                this.vector[i] = this.vector[i] - newVector[i];
-            }
-        } else if (this.vector.length < vector.vector.length) {
-            double[] newVector = this.vector;
-            this.vector = new double[vector.vector.length];
-            System.arraycopy(newVector, 0, this.vector, 0, newVector.length);
             for (int i = 0; i < vector.vector.length; ++i) {
                 this.vector[i] = this.vector[i] - vector.vector[i];
             }
+            return this;
+        } else if (this.vector.length < vector.vector.length) {
+            for (int i = 0; i < this.vector.length; ++i) {
+                vector.vector[i] = this.vector[i] - vector.vector[i];
+            }
+            for (int i = this.vector.length; i < vector.vector.length; ++i) {
+                vector.vector[i] = vector.vector[i] * -1;
+            }
+            return vector;
         } else {
             for (int i = 0; i < vector.vector.length; ++i) {
                 this.vector[i] = this.vector[i] - vector.vector[i];
             }
+            return this;
         }
-        return new Vector(this.vector);
     }
 
     //умножение вектора на скаляр
@@ -91,7 +84,7 @@ public class Vector {
         for (int i = 0; i < vector.length; ++i) {
             vector[i] = vector[i] * scalar;
         }
-        return new Vector(vector);
+        return this;
     }
 
     //разворот вектора
@@ -100,7 +93,7 @@ public class Vector {
     }
 
     //длина вектора
-    public double getLength() {
+    public double getLengthOfaVector() {
         double length = 0;
         for (double e : vector) {
             length += e * e;
@@ -118,13 +111,12 @@ public class Vector {
     }
 
     //установка значения по индексу
-    public double[] SetElement(int index, double value) {
+    public void setElement(int index, double value) {
         if (index < vector.length) {
             vector[index] = value;
         } else {
             throw new IndexOutOfBoundsException("Ошибка, задан несуществующий индес.");
         }
-        return vector;
     }
 
     //переопределение equals
@@ -163,7 +155,7 @@ public class Vector {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("{");
+        builder.append("{  ");
         for (double e : vector) {
             builder.append(e).append("  ");
         }

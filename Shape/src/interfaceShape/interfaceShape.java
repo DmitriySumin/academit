@@ -9,5 +9,6 @@ public class interfaceShape {
         double getArea();
 
         double getPerimeter();
+
     }
 }

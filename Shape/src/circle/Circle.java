@@ -31,7 +31,7 @@ public class Circle implements interfaceShape.Shape {
 
     @Override
     public String toString() {
-        return "Радиус: " + radius;
+        return "Окружность, радиус: " + radius;
     }
 
     @Override

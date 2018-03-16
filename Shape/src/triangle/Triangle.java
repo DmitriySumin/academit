@@ -2,7 +2,7 @@ package triangle;
 
 import interfaceShape.interfaceShape;
 
-class Triangle implements interfaceShape.Shape {
+public class Triangle implements interfaceShape.Shape {
     private double x1;
     private double y1;
     private double x2;
@@ -10,7 +10,7 @@ class Triangle implements interfaceShape.Shape {
     private double x3;
     private double y3;
 
-    Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+    public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -63,6 +63,6 @@ class Triangle implements interfaceShape.Shape {
 
     @Override
     public int hashCode() {
-        return (int) getPerimeter();
+        return (int) (x1 * y1 * x2 * y2 * x3 * y3);
     }
 }

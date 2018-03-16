@@ -33,7 +33,7 @@ public class Rectangle implements interfaceShape.Shape {
 
     @Override
     public String toString() {
-        return "Ширина: " + width + "Высота: " + height;
+        return "Прямоугольник, ширина: " + width + "высота: " + height;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Rectangle implements interfaceShape.Shape {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return (int) (width * height);
     }
 }

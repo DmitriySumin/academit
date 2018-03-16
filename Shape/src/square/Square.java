@@ -31,7 +31,7 @@ public class Square implements interfaceShape.Shape {
 
     @Override
     public String toString() {
-        return "Ширина квадрата: " + side;
+        return "Квадрат, ширина и высота: " + side;
     }
 
     @Override

@@ -41,18 +41,14 @@ public class Vector {
 
     //сложение векторов
     public Vector getAddition(Vector vector) {
-        if (this.vector.length > vector.vector.length) {
+        if (this.vector.length >= vector.vector.length) {
             for (int i = 0; i < vector.vector.length; ++i) {
-                this.vector[i] = this.vector[i] + vector.vector[i];
-            }
-        } else if (this.vector.length < vector.vector.length) {
-            this.vector = Arrays.copyOf(this.vector, vector.vector.length);
-            for (int i = 0; i < this.vector.length; ++i) {
-                this.vector[i] = this.vector[i] + vector.vector[i];
+                this.vector[i] += vector.vector[i];
             }
         } else {
-            for (int i = 0; i < vector.vector.length; ++i) {
-                this.vector[i] = this.vector[i] + vector.vector[i];
+            this.vector = Arrays.copyOf(this.vector, vector.vector.length);
+            for (int i = 0; i < this.vector.length; ++i) {
+                this.vector[i] += vector.vector[i];
             }
         }
         return this;
@@ -60,19 +56,14 @@ public class Vector {
 
     //вычитание векторов
     public Vector getDifferences(Vector vector) {
-        if (this.vector.length > vector.vector.length) {
+        if (this.vector.length >= vector.vector.length) {
             for (int i = 0; i < vector.vector.length; ++i) {
-                this.vector[i] = this.vector[i] - vector.vector[i];
-            }
-            return this;
-        } else if (this.vector.length < vector.vector.length) {
-            this.vector = Arrays.copyOf(this.vector, vector.vector.length);
-            for (int i = 0; i < this.vector.length; ++i) {
-                this.vector[i] = this.vector[i] - vector.vector[i];
+                this.vector[i] -= vector.vector[i];
             }
         } else {
-            for (int i = 0; i < vector.vector.length; ++i) {
-                this.vector[i] = this.vector[i] - vector.vector[i];
+            this.vector = Arrays.copyOf(this.vector, vector.vector.length);
+            for (int i = 0; i < this.vector.length; ++i) {
+                this.vector[i] -= vector.vector[i];
             }
         }
         return this;
@@ -92,17 +83,17 @@ public class Vector {
     }
 
     //длина вектора
-    public double getLengthVector() {
-        double length = 0;
+    public double getVectorLength() {
+        double result = 0;
         for (double e : vector) {
-            length += e * e;
+            result += e * e;
         }
-        return Math.sqrt(length);
+        return Math.sqrt(result);
     }
 
     //получение значения вектора по индексу
     public double getElement(int index) {
-        if (index > vector.length) {
+        if ((index > vector.length - 1) || (index < 0)) {
             throw new IndexOutOfBoundsException("Ошибка, задан несуществующий индекс.");
         } else {
             return vector[index];
@@ -111,62 +102,30 @@ public class Vector {
 
     //установка значения по индексу
     public void setElement(int index, double value) {
-        if (index > vector.length) {
+        if ((index > vector.length - 1) || (index < 0)) {
             throw new IndexOutOfBoundsException("Ошибка, задан несуществующий индес.");
         } else {
             vector[index] = value;
         }
     }
+
     //статический метод сложения векторов
     public static Vector getAdditionStatic(Vector vectorX, Vector vectorY) {
-        if (vectorX.getSize() > vectorY.getSize()) {
-            for (int i = 0; i < vectorY.getSize(); ++i) {
-                vectorX.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
-            }
-            return vectorX;
-        } else if (vectorX.getSize() < vectorY.getSize()) {
-            for (int i = 0; i < vectorX.getSize(); ++i) {
-                vectorY.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
-            }
-            return vectorY;
-        } else {
-            for (int i = 0; i < vectorX.getSize(); ++i) {
-                vectorX.setElement(i, vectorX.getElement(i) + vectorY.getElement(i));
-            }
-            return new Vector(vectorX);
-        }
+        Vector addition = new Vector(vectorX);
+        return addition.getAddition(vectorY);
     }
+
     //статический метод вычитания векторов
     public static Vector getDifferenceStatic(Vector vectorX, Vector vectorY) {
-        if (vectorX.getSize() > vectorY.getSize()) {
-            for (int i = 0; i < vectorY.getSize(); ++i) {
-                vectorX.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
-            }
-            return new Vector(vectorX);
-        } else if (vectorX.getSize() < vectorY.getSize()) {
-            for (int i = 0; i < vectorX.getSize(); ++i) {
-                vectorY.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
-            }
-            for (int i = vectorX.getSize(); i < vectorY.getSize(); ++i) {
-                vectorY.setElement(i, vectorY.getElement(i) * -1);
-            }
-            return new Vector(vectorY);
-        } else {
-            for (int i = 0; i < vectorX.getSize(); ++i) {
-                vectorX.setElement(i, vectorX.getElement(i) - vectorY.getElement(i));
-            }
-            return new Vector(vectorX);
-        }
+        Vector difference = new Vector(vectorX);
+        return difference.getDifferences(vectorY);
     }
+
     //скалярное произведение векторов
-    public static int getScalarProductVectors(Vector vectorX, Vector vectorY) {
+    public static double getScalarProductVectors(Vector vectorX, Vector vectorY) {
         int result = 0;
-        if (vectorX.getSize() > vectorY.getSize()) {
+        if (vectorX.getSize() >= vectorY.getSize()) {
             for (int i = 0; i < vectorY.getSize(); ++i) {
-                result += vectorX.getElement(i) * vectorY.getElement(i);
-            }
-        } else if (vectorX.getSize() < vectorY.getSize()) {
-            for (int i = 0; i < vectorX.getSize(); ++i) {
                 result += vectorX.getElement(i) * vectorY.getElement(i);
             }
         } else {

@@ -1,8 +1,8 @@
-package ru.academit.shape;
+package ru.academit.shape.main;
 
 import comparator.CompareToArea;
 import comparator.CompareToPerimeter;
-import shapes.*;
+import shapes.ru.academit.*;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class Main {
         Square squareSmall = new Square(1);
         Square squareBig = new Square(3);
         Triangle triangle = new Triangle(1, 2, 4, 1, 5, 8);
-        ArrayList<InterfaceShape> notSortedShapes = new ArrayList<InterfaceShape>();
+        ArrayList<Shape> notSortedShapes = new ArrayList<Shape>();
         notSortedShapes.add(circleSmall);
         notSortedShapes.add(circleBig);
         notSortedShapes.add(rectangle);

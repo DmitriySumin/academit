@@ -1,6 +1,6 @@
-package shapes;
+package shapes.ru.academit;
 
-public interface InterfaceShape {
+public interface Shape {
 
     double getWidth();
 

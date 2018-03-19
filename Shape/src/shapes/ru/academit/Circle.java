@@ -1,35 +1,35 @@
-package shapes;
+package shapes.ru.academit;
 
-public class Square implements InterfaceShape {
-    double side;
+public class Circle implements Shape {
+    private double radius;
 
-    public Square(double side) {
-        this.side = side;
+    public Circle(double radius) {
+        this.radius = radius;
     }
 
     @Override
     public double getWidth() {
-        return side;
+        return radius + radius;
     }
 
     @Override
     public double getHeight() {
-        return side;
+        return radius + radius;
     }
 
     @Override
     public double getArea() {
-        return side * side;
+        return Math.PI * radius * radius;
     }
 
     @Override
     public double getPerimeter() {
-        return 4 * side;
+        return 2 * Math.PI * radius;
     }
 
     @Override
     public String toString() {
-        return "Квадрат, ширина и высота: " + side;
+        return "Окружность, радиус: " + radius;
     }
 
     @Override
@@ -41,13 +41,12 @@ public class Square implements InterfaceShape {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-
-        Square side1 = (Square) object;
-        return (side == side1.side);
+        Circle circle = (Circle) object;
+        return (radius == circle.radius);
     }
 
     @Override
     public int hashCode() {
-        return (int) side;
+        return (int) radius;
     }
 }

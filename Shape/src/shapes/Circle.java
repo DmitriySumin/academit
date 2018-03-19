@@ -1,8 +1,6 @@
-package circle;
+package shapes;
 
-import interfaceShape.interfaceShape;
-
-public class Circle implements interfaceShape.Shape {
+public class Circle implements InterfaceShape {
     double radius;
 
     public Circle(double radius) {

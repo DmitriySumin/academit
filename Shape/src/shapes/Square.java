@@ -1,8 +1,6 @@
-package square;
+package shapes;
 
-import interfaceShape.interfaceShape;
-
-public class Square implements interfaceShape.Shape {
+public class Square implements InterfaceShape {
     double side;
 
     public Square(double side) {

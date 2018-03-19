@@ -1,8 +1,6 @@
-package rectangle;
+package shapes;
 
-import interfaceShape.interfaceShape;
-
-public class Rectangle implements interfaceShape.Shape {
+public class Rectangle implements InterfaceShape {
     double width;
     double height;
 

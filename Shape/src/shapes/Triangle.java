@@ -1,8 +1,6 @@
-package triangle;
+package shapes;
 
-import interfaceShape.interfaceShape;
-
-public class Triangle implements interfaceShape.Shape {
+public class Triangle implements InterfaceShape {
     private double x1;
     private double y1;
     private double x2;
@@ -34,7 +32,7 @@ public class Triangle implements interfaceShape.Shape {
         return 0.5 * ((x1 - x3) * (y2 - y3) + (x2 - x3) * (y1 - y3));
     }
 
-    public double getSideOfTriangle(double x1, double y1, double x2, double y2) {
+    private static double getSideOfTriangle(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
 

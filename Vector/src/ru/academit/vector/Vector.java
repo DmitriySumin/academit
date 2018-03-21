@@ -43,25 +43,23 @@ public class Vector {
     public Vector getAddition(Vector vector) {
         if (this.vector.length < vector.vector.length) {
             this.vector = Arrays.copyOf(this.vector, vector.vector.length);
-        } else {
-            vector.vector = Arrays.copyOf(vector.vector, this.vector.length);
         }
-        for (int i = 0; i < this.vector.length; ++i) {
+        for (int i = 0; i < vector.vector.length; ++i) {
             this.vector[i] += vector.vector[i];
         }
-
         return this;
     }
 
     //вычитание векторов
     public Vector getDifferences(Vector vector) {
+        double[] array = Arrays.copyOf(vector.vector, vector.vector.length);
         if (this.vector.length < vector.vector.length) {
             this.vector = Arrays.copyOf(this.vector, vector.vector.length);
         } else {
-            vector.vector = Arrays.copyOf(vector.vector, this.vector.length);
+            array = Arrays.copyOf(vector.vector, this.vector.length);
         }
         for (int i = 0; i < this.vector.length; ++i) {
-            this.vector[i] -= vector.vector[i];
+            this.vector[i] -= array[i];
         }
 
         return this;
@@ -122,12 +120,7 @@ public class Vector {
     //скалярное произведение векторов
     public static double getScalarProductVectors(Vector vectorX, Vector vectorY) {
         int result = 0;
-        int length;
-        if (vectorX.getSize() >= vectorY.getSize()) {
-            length = vectorY.getSize();
-        } else {
-            length = vectorX.getSize();
-        }
+        int length = Math.min(vectorX.getSize(), vectorY.getSize());
         for (int i = 0; i < length; ++i) {
             result += vectorX.getElement(i) * vectorY.getElement(i);
         }

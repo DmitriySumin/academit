@@ -1,7 +1,7 @@
 package ru.academit.shape.main.main;
 
-import comparator.CompareToArea;
-import comparator.CompareToPerimeter;
+import ru.academit.shape.main.comparator.CompareToArea;
+import ru.academit.shape.main.comparator.CompareToPerimeter;
 import ru.academit.shape.main.shapes.*;
 
 import java.util.ArrayList;

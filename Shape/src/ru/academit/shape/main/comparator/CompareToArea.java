@@ -1,4 +1,4 @@
-package comparator;
+package ru.academit.shape.main.comparator;
 
 import ru.academit.shape.main.shapes.Shape;
 

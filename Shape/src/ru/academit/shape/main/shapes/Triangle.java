@@ -1,4 +1,4 @@
-package shapes.ru.academit;
+package ru.academit.shape.main.shapes;
 
 public class Triangle implements Shape {
     private double x1;

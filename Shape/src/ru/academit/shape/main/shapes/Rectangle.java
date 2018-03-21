@@ -1,4 +1,4 @@
-package shapes.ru.academit;
+package ru.academit.shape.main.shapes;
 
 public class Rectangle implements Shape {
     private double width;

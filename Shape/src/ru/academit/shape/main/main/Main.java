@@ -1,8 +1,8 @@
-package ru.academit.shape.main;
+package ru.academit.shape.main.main;
 
 import comparator.CompareToArea;
 import comparator.CompareToPerimeter;
-import shapes.ru.academit.*;
+import ru.academit.shape.main.shapes.*;
 
 import java.util.ArrayList;
 

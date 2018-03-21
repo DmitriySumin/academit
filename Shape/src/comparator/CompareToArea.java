@@ -1,6 +1,6 @@
 package comparator;
 
-import shapes.ru.academit.Shape;
+import ru.academit.shape.main.shapes.Shape;
 
 import java.util.Comparator;
 

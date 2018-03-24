@@ -1,82 +1,84 @@
 package matrix.ru.academit;
 
-
-import java.util.Arrays;
-
-public class Matrix extends Vector {
-    private double[][] matrix;
+public class Matrix {
+    private Vector[] matrix;
 
     //размерность n на m, все компоненты равны 0
     public Matrix(int n, int m) {
-        this.matrix = new double[n][m];
+        matrix = new Vector[n];
+        for (int i = 0; i < matrix.length; ++i) {
+            matrix[i] = new Vector(m);
+        }
     }
 
     //конструктор копирования
     public Matrix(Matrix matrix) {
-        this.matrix = Arrays.copyOf(matrix.matrix, matrix.matrix.length);
+        this.matrix = new Vector[matrix.matrix.length];
+        for (int i = 0; i < matrix.matrix.length; ++i) {
+            this.matrix[i] = new Vector(matrix.matrix[i]);
+        }
     }
 
     //из двумерного массива
     public Matrix(double[][] array) {
-        this.matrix = new double[array.length][array[0].length];
+        matrix = new Vector[array.length];
         for (int i = 0; i < array.length; ++i) {
-            this.matrix[i] = Arrays.copyOf(array[i], array[i].length);
+            matrix[i] = new Vector(array[i]);
         }
     }
 
     //из массива векторов-строк
     public Matrix(Vector[] vector) {
-        this.matrix = new double[vector.length][vector[0].getSize()];
+        matrix = new Vector[vector.length];
         for (int i = 0; i < vector.length; ++i) {
-            for (int j = 0; j < vector[i].getSize(); ++j) {
-                this.matrix[i][j] = vector[i].getElement(j);
-            }
+            matrix[i] = new Vector(vector[i]);
         }
     }
 
+
     //получение размеров матрицы
-    public double[] getsize() {
-        double[] array = new double[2];
-        array[0] = this.matrix.length;
-        array[1] = this.matrix[0].length;
-        return array;
+    public int getSizeRow() {
+        return this.matrix.length;
+    }
+
+    public int getSizeColumn() {
+        return matrix[0].getSize();
     }
 
     //получчение вектора строки по индексу
-    public double[] getVectorString(int index) {
-        if (index > this.matrix.length - 1) {
+    public Vector getVector(int index) {
+        if (index > this.getSizeRow()) {
             throw new IllegalArgumentException("Ошибкаб, задан неверный индекс.");
         }
-        return Arrays.copyOf(this.matrix[index], this.matrix[index].length);
+        return new Vector(matrix[index]);
     }
 
     //задание вектора строки по индексу
-    public Matrix setVectorString(int index, double[] array) {
-        if (array.length > this.matrix[index].length) {
+    public void setVector(int index, Vector vector) {
+        if (this.getSizeRow() < vector.getSize()) {
             throw new IllegalArgumentException("Ошибкаб, колличество элементов вектоа не может быть больше количества элементов стргоки матрицы.");
         }
-        this.matrix[index] = Arrays.copyOf(array, this.matrix[index].length);
-        return this;
+        matrix[index] = new Vector(vector);
     }
 
     //получение вектора-столбца по индексу
-    public double[] getVectorColumn(int index) {
+    public Vector getVectorRow(int index) {
         if (index > this.matrix.length || index < 0) {
             throw new IndexOutOfBoundsException("Ошибка, задан неверный индекс.");
         }
-        double[] array = new double[this.matrix.length];
-        for (int i = 0; i < this.matrix.length; ++i) {
-            array[i] = this.matrix[i][index];
+        Vector vector = new Vector(this.getSizeRow());
+        for (int i = 0; i < this.getSizeRow(); ++i) {
+            vector.setElement(i, this.getElement(i, 0));
         }
-        return array;
+        return vector;
     }
 
     //транспонирование матрицы
     public Matrix getTranspose() {
-        Matrix matrix = new Matrix(this.matrix[0].length, this.matrix.length);
-        for (int i = 0; i < matrix.matrix.length; ++i) {
-            for (int j = 0; j < matrix.matrix[i].length; ++j) {
-                matrix.matrix[i][j] = this.matrix[j][i];
+        Matrix matrix = new Matrix(this.getSizeColumn(), this.getSizeRow());
+        for (int i = 0; i < this.getSizeColumn(); ++i) {
+            for (int j = 0; j < this.getSizeRow(); ++j) {
+                matrix.setElement(i, j, this.getElement(j, i));
             }
         }
         return matrix;
@@ -84,65 +86,71 @@ public class Matrix extends Vector {
 
     //умножение матрицы на скаляр
     public Matrix getMultiplicationScalar(int scalar) {
-        for (int i = 0; i < this.matrix.length; ++i) {
-            for (int j = 0; j < this.matrix[i].length; ++j) {
-                this.matrix[i][j] *= scalar;
+        for (int i = 0; i < this.getSizeRow(); ++i) {
+            for (int j = 0; j < this.getSizeColumn(); ++j) {
+                this.setElement(i, j, this.getElement(i, j) * scalar);
             }
         }
         return this;
     }
 
     //изменение элемента матрицы
-    private void setElement(int indexRow, int indexColumn, double value) {
-        if ((indexRow > this.matrix.length - 1) || (indexColumn > this.matrix[0].length)) {
+    public void setElement(int indexRow, int indexColumn, double value) {
+        if ((indexRow > this.getSizeRow()) || (indexColumn > this.getSizeColumn())) {
             throw new IllegalArgumentException("Ошибкаб, неверно задан индекс.");
         }
-        matrix[indexRow][indexColumn] = value;
+        this.matrix[indexRow].setElement(indexColumn, value);
     }
 
     //получение элемента матрицы
-    private double getElement(int indexRow, int indexColumn) {
-        if ((indexRow > this.matrix.length - 1) || (indexColumn > this.matrix[0].length)) {
+    public double getElement(int indexRow, int indexColumn) {
+        if ((indexRow > this.getSizeRow()) || (indexColumn > this.getSizeColumn())) {
             throw new IllegalArgumentException("Ошибкаб, неверно задан индекс.");
         }
-        return matrix[indexRow][indexColumn];
+        return this.matrix[indexRow].getElement(indexColumn);
     }
 
     //нахождение определителя матрицы
     public double determinant() {
+        if (this.getSizeRow() != this.getSizeColumn()) {
+            throw new IllegalArgumentException("Ошибкаб, матрица должна быть квадратной");
+        }
         Matrix temp;
         double result = 0;
 
         if (matrix.length == 2) {
-            result = ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]));
+            result = ((this.getElement(0, 0) * this.getElement(1, 1)) - (this.getElement(0, 1) * this.getElement(1, 0)));
             return result;
         }
 
-        for (int i = 0; i < matrix[0].length; ++i) {
-            temp = new Matrix(new double[matrix.length - 1][matrix[0].length - 1]);
+        for (int i = 0; i < this.getSizeColumn(); ++i) {
+            temp = new Matrix(new double[this.getSizeRow()][this.getSizeColumn()]);
             for (int j = 1; j < matrix.length; ++j) {
-                for (int k = 0; k < matrix[0].length; ++k) {
+                for (int k = 0; k < this.getSizeColumn(); ++k) {
                     if (k < i) {
-                        temp.setElement(j - 1, k, matrix[j][k]);
+                        temp.setElement(j - 1, k, this.getElement(j, k));
                     } else if (k > i) {
-                        temp.setElement(j - 1, k - 1, matrix[j][k]);
+                        temp.setElement(j - 1, k - 1, this.getElement(j, k));
                     }
                 }
             }
 
-            result += matrix[0][i] * Math.pow(-1, (double) i) * temp.determinant();
+            result += this.getElement(0, i) * Math.pow(-1, (double) i) * temp.determinant();
         }
         return result;
     }
 
     //умножение матрицы на вектор
     public Vector getMultiplicationVector(Vector vector) {
+        if (this.getSizeRow() != vector.getSize()) {
+            throw new IllegalArgumentException("Ошибкаб, размерность вектора задана неверно");
+        }
         Vector result = new Vector(vector.getSize());
         double[] calculation = new double[vector.getSize()];
-        for (int i = 0; i < matrix.length; ++i) {
-            for (int j = 0; j < matrix[0].length; ++j) {
-                matrix[i][j] = matrix[i][j] * vector.getElement(j);
-                calculation[i] += matrix[i][j];
+        for (int i = 0; i < this.getSizeRow(); ++i) {
+            for (int j = 0; j < this.getSizeColumn(); ++j) {
+                this.setElement(i, j, this.getElement(i, j) * vector.getElement(j));
+                calculation[i] += this.getElement(i, j);
             }
             result.setElement(i, calculation[i]);
         }
@@ -151,8 +159,11 @@ public class Matrix extends Vector {
 
     //сложение матриц
     public Matrix getAddition(Matrix matrix) {
-        for (int i = 0; i < this.matrix.length; ++i) {
-            for (int j = 0; j < this.matrix[0].length; ++j) {
+        if (this.getSizeRow() != this.getSizeColumn()) {
+            throw new IllegalArgumentException("Ошибкаб, матрица должна быть квадратной");
+        }
+        for (int i = 0; i < this.getSizeRow(); ++i) {
+            for (int j = 0; j < this.getSizeColumn(); ++j) {
                 this.setElement(i, j, this.getElement(i, j) + matrix.getElement(i, j));
             }
         }
@@ -161,8 +172,11 @@ public class Matrix extends Vector {
 
     //вычитание матриц
     public Matrix getDifference(Matrix matrix) {
-        for (int i = 0; i < this.matrix.length; ++i) {
-            for (int j = 0; j < this.matrix[0].length; ++j) {
+        if (this.getSizeRow() != this.getSizeColumn()) {
+            throw new IllegalArgumentException("Ошибкаб, матрица должна быть квадратной");
+        }
+        for (int i = 0; i < this.getSizeRow(); ++i) {
+            for (int j = 0; j < this.getSizeColumn(); ++j) {
                 this.setElement(i, j, this.getElement(i, j) + matrix.getElement(i, j) * -1);
             }
         }
@@ -173,15 +187,37 @@ public class Matrix extends Vector {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{{ ");
-        for (int i = 0; i < matrix.length; ++i) {
-            for (int j = 0; j < matrix[i].length; ++j) {
-                stringBuilder.append(matrix[i][j]).append(" ");
-                if ((j == matrix[i].length - 1) && (i != matrix.length - 1)) {
+        for (int i = 0; i < this.getSizeRow(); ++i) {
+            for (int j = 0; j < this.getSizeColumn(); ++j) {
+                stringBuilder.append(this.getElement(i, j)).append(" ");
+                if ((j == this.getSizeColumn() - 1) && (i != this.getSizeRow() - 1)) {
                     stringBuilder.append("}, { ");
                 }
             }
         }
         stringBuilder.append("}}");
         return stringBuilder.toString();
+    }
+
+    //статическое сложение матриц
+    public static Matrix getAdd(Matrix matrixA, Matrix matrixB) {
+        Matrix result = new Matrix(matrixA.getSizeRow(), matrixA.getSizeColumn());
+        for (int i = 0; i < matrixA.getSizeRow(); ++i) {
+            for (int j = 0; j < matrixA.getSizeColumn(); ++j) {
+                result.setElement(i, j, matrixA.getElement(i, j) + matrixB.getElement(i, j));
+            }
+        }
+        return result;
+    }
+
+    //статическое вычитание матриц
+    public static Matrix getDiff(Matrix matrixA, Matrix matrixB) {
+        Matrix result = new Matrix(matrixA.getSizeRow(), matrixA.getSizeColumn());
+        for (int i = 0; i < matrixA.getSizeRow(); ++i) {
+            for (int j = 0; j < matrixA.getSizeColumn(); ++j) {
+                result.setElement(i, j, matrixA.getElement(i, j) + (matrixB.getElement(i, j) * -1));
+            }
+        }
+        return result;
     }
 }

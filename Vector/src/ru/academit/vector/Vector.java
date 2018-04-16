@@ -113,8 +113,7 @@ public class Vector {
 
     //статический метод вычитания векторов
     public static Vector getDifference(Vector vectorX, Vector vectorY) {
-        Vector difference = new Vector(vectorX);
-        return difference.getDifferences(vectorY);
+        return vectorX.getDifferences(vectorY);
     }
 
     //скалярное произведение векторов
@@ -169,6 +168,12 @@ public class Vector {
         }
         builder.append("}");
         return builder.toString();
+    }
+
+    public static void main(String[] args) {
+        Vector vector = new Vector(new double[]{1, 2});
+        Vector vector1 = new Vector(new double[]{4, 5, 6});
+        System.out.print(getDifference(vector, vector1));
     }
 
 }

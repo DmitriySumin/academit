@@ -276,14 +276,4 @@ public class Matrix {
             throw new IllegalArgumentException("Неверная размерность матриц");
         }
     }
-
-    public static class Main {
-        public static void main(String[] args) {
-            Matrix matrix = new Matrix(new double[][]{{1, 2, 3}, {4, 5, 6}});
-            Vector vector = new Vector(new double[]{1, 2, 3});
-            Vector vector1 = new Vector(new double[]{4, 5, 6});
-            Matrix matrix1 = new Matrix(new Vector[]{vector, vector1});
-            System.out.println(getDiff(matrix, matrix1));
-        }
-    }
 }
